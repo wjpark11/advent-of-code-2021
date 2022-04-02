@@ -49,15 +49,15 @@ class Bingo:
 
 bingo_games = [Bingo(board) for board in boards]
 
-
-bingo_win = False
-
-
 for draw in draw_list:
-    if not bingo_win:
+    if len(bingo_games) == 0:
+        break
+    elif len(bingo_games) == 1:
+        bingo_games[0].draw(draw)
+        if bingo_games[0].solved:
+            print(bingo_games[0].score * draw)
+            bingo_games = []
+    else:
         for bingo in bingo_games:
             bingo.draw(draw)
-            if bingo.solved:
-                print(bingo.score * draw)
-                bingo_win = True
-                break
+        bingo_games = [bingo for bingo in bingo_games if bingo.solved==False]
