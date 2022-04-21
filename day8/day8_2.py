@@ -56,13 +56,17 @@ def get_numbers(input: List[list]) -> int:
 
     ans_str = ''
     for num in nums:
-        ans_str += decode_dict[num]
+        for key in decode_dict.keys():
+            if set(num) == set(key):
+                ans_str += decode_dict[key]
 
     ans = int(ans_str)
 
     return ans
 
 
-
+sum = 0
 for input in inputs:
-    print(decode_signal(input[0]))
+    sum += get_numbers(input)
+
+print(sum)
