@@ -2,7 +2,7 @@ with open("day8_input.txt", "rt") as f:
     inputs = f.readlines()
     inputs = [input.strip() for input in inputs]
 
-inputs = [[item.split(' ') for item in input.split(' | ')] for input in inputs]
+inputs = [[item.split(" ") for item in input.split(" | ")] for input in inputs]
 
 output_vals = [input[1] for input in inputs]
 
