@@ -16,7 +16,7 @@ def is_corrupted(line: str) -> tuple:
             while is_paired[search_idx]:
                 search_idx -= 1
                 if search_idx < 0:
-                    return True, is_paired
+                    return False, is_paired
             if PAIR_DICT[line[idx]] == line[search_idx]:
                 is_paired[idx] = True
                 is_paired[search_idx] = True
@@ -34,7 +34,7 @@ def day10_2(inputs):
     for line in incompletes:
         char_list = [line[i] for i, val in enumerate(is_corrupted(line)[1]) if not val]
         score = 0
-        for char in char_list:
+        for char in char_list[::-1]:
             score = (score * 5) + SCORE_DICT[char]
         scores.append(score)
         scores.sort()
