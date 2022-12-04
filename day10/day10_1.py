@@ -1,8 +1,6 @@
-from collections import Counter
-
 with open("day10_input.txt", "rt") as f:
     inputs = f.readlines()
-    lines = [line.strip() for line in inputs]
+    inputs = [line.strip() for line in inputs]
 
 
 PAIR_DICT = {
@@ -13,27 +11,21 @@ PAIR_DICT = {
 }
 
 def is_corrupted(line: str) -> tuple:
-    for i in range(len(line)):
-        if line[i] in ")]}>":
-            pair = PAIR_DICT[line[i]]
-            pair_point = -1
-            j = i
-            while pair_point != 0:
-                j -= 1
-                if line[j] == pair:
-                    pair_point += 1
-                elif line[j] == line[i]:
-                    pair_point -= 1
-                elif j == -1:
-                    return False, line[i]    
-            chunk = line[j:i+1]
-            print(chunk)
-            counter = Counter(chunk)
-            if counter['{'] != counter['}']\
-                or counter['['] != counter[']']\
-                or counter['<'] != counter['>']\
-                or counter['('] != counter[')']:
-                return False, line[i]
+    is_paired = [False for _ in line]
+    for idx in range(len(line)):
+        if line[idx] in "({[<":
+            pass
+        else:
+            search_idx = idx - 1
+            while is_paired[search_idx]:
+                search_idx -= 1
+                if search_idx < 0:
+                    return True, ""
+            if PAIR_DICT[line[idx]] == line[search_idx]:
+                is_paired[idx] = True
+                is_paired[search_idx] = True
+            else:
+                return False, line[idx]
     return True, ""
 
 SCORE_DICT = {
@@ -41,12 +33,16 @@ SCORE_DICT = {
 }
 
 
-print(is_corrupted('[(()[<>])]({[<{<<[]>>('))
-# score = 0
-# for line in lines:
-#     if not is_corrupted(line)[0]:
-#         score += SCORE_DICT[is_corrupted(line)[1]]
+def day10_1(inputs):
+    score = 0
+    for line in inputs:
+        if not is_corrupted(line)[0]:
+            score += SCORE_DICT[is_corrupted(line)[1]]
 
-# print(f"total syntax error score: {score}")
+    return score
+
+
+if __name__ == "__main__":
+    print(day10_1(inputs))
                 
 
